@@ -1,7 +1,5 @@
-package com.paoloboi.adventofcode
-package util
+package adventofcode.util
 
 trait RowParser[A] {
   def parse(row: String): A
 }
-

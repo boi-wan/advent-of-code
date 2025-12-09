@@ -1,8 +1,7 @@
-package com.paoloboi.adventofcode
-package dayone
+package adventofcode.dayone
 
-import dayone.input.TurnParser
-import dayone.model.{Dial, DialZeroCounter, Position, ZeroesCount}
+import adventofcode.dayone.input.TurnParser
+import adventofcode.dayone.model.{Dial, DialZeroCounter, Position, ZeroesCount}
 
 import scala.util.{Failure, Success}
 

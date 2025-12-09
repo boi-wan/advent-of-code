@@ -1,5 +1,4 @@
-package com.paoloboi.adventofcode
-package dayone.model
+package adventofcode.dayone.model
 
 object Dial {
 

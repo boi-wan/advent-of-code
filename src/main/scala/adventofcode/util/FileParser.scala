@@ -1,5 +1,4 @@
-package com.paoloboi.adventofcode
-package util
+package adventofcode.util
 
 import scala.io.Source
 import scala.util.{Try, Using}

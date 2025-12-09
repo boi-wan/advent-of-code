@@ -1,4 +1,4 @@
-package com.paoloboi.adventofcode
+package adventofcode
 package dayone.model
 
 import org.scalatest.matchers.should.Matchers

@@ -1,5 +1,4 @@
-package com.paoloboi.adventofcode
-package dayone.model
+package adventofcode.dayone.model
 
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec

@@ -1,8 +1,7 @@
-package com.paoloboi.adventofcode
-package dayone.input
+package adventofcode.dayone.input
 
-import dayone.model.{LeftTurn, RightTurn, Turn}
-import util.{FileParser, RowParser}
+import adventofcode.dayone.model.{LeftTurn, RightTurn, Turn}
+import adventofcode.util.{FileParser, RowParser}
 
 import scala.util.Try
 
@@ -19,8 +18,7 @@ sealed class TurnRowParser extends RowParser[Turn] {
 }
 
 object TurnParser {
+
   def readFile(): Try[List[Turn]] =
     FileParser(new TurnRowParser()).readFile("dayone/input.txt")
 }
-
-
