@@ -1,7 +1,7 @@
 package adventofcode.dayone
 
 import adventofcode.dayone.input.TurnParser
-import adventofcode.dayone.model.{Dial, DialZeroCounter, Position, ZeroesCount}
+import adventofcode.dayone.model.{Dial, Position}
 
 import scala.util.{Failure, Success}
 

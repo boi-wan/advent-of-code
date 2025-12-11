@@ -1,5 +1,6 @@
-package adventofcode
-package dayone.model
+package adventofcode.dayone
+
+import adventofcode.dayone.model.*
 
 object DialZeroCounter {
   def countZeroes(turn: Turn)(dial: Dial): ZeroesCount = {
