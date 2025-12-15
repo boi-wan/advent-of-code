@@ -104,29 +104,6 @@ sbt "testOnly *GiftShopPart1Spec"
 sbt "testOnly *GiftShopPart2Spec"
 ```
 
-**Current Test Coverage**: 109 tests across 7 test suites
-- Day 1: 62 tests (DialSpec, DialZeroCounterSpec, SecretEntrancePart1Spec, SecretEntrancePart2Spec)
-- Day 2: 47 tests (SillyIdFinderSpec, GiftShopPart1Spec, GiftShopPart2Spec)
-
-## Development Principles
-
-This project follows functional programming principles and Scala 3 best practices:
-
-- **Immutability**: Use of immutable data structures
-- **Pure Functions**: Side-effect free functions where possible
-- **Type Safety**: Leverage Scala's type system with `Option`, `Either`, and `Try`
-- **Pattern Matching**: Extensive use of pattern matching for control flow
-- **ADTs**: Algebraic Data Types using `sealed trait` and `case class`
-- **For Comprehensions**: Monadic composition for cleaner code
-
-## Testing
-
-Tests are written using:
-- **ScalaTest** with `AnyWordSpec` for word-style test descriptions
-- **Matchers** for expressive assertions
-- **Fixture pattern** to encapsulate test setup
-- Each test is independent and runs in isolation
-
 ## Solutions
 
 ### Day 1: Secret Entrance
