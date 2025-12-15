@@ -1,11 +1,11 @@
 package adventofcode.dayone
 
 import adventofcode.dayone.input.TurnParser
-import adventofcode.dayone.model.{Dial, LeftTurn, Position, RightTurn}
+import adventofcode.dayone.model.*
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 
-import scala.util.Success
+import scala.util.{Success, Try}
 
 class SecretEntrancePart1Spec extends AnyWordSpec with Matchers {
 
@@ -17,14 +17,14 @@ class SecretEntrancePart1Spec extends AnyWordSpec with Matchers {
   "SecretEntrancePart1" when {
     "reading the input file" should {
       "successfully parse all turns" in new Fixture {
-        val maybeTurns = TurnParser.readFile()
+        val maybeTurns: Try[List[Turn]] = TurnParser.readFile()
 
         maybeTurns should be a Symbol("success")
         maybeTurns.get should have size 10
       }
 
       "parse the correct turn types and values" in new Fixture {
-        val maybeTurns = TurnParser.readFile()
+        val maybeTurns: Try[List[Turn]] = TurnParser.readFile()
 
         maybeTurns match {
           case Success(turns) =>
@@ -45,7 +45,7 @@ class SecretEntrancePart1Spec extends AnyWordSpec with Matchers {
 
     "processing turns" should {
       "calculate the correct final dial position" in new Fixture {
-        val maybeTurns = TurnParser.readFile()
+        val maybeTurns: Try[List[Turn]] = TurnParser.readFile()
 
         maybeTurns match {
           case Success(turns) =>
@@ -60,7 +60,7 @@ class SecretEntrancePart1Spec extends AnyWordSpec with Matchers {
       }
 
       "count the correct number of times the dial hits zero" in new Fixture {
-        val maybeTurns = TurnParser.readFile()
+        val maybeTurns: Try[List[Turn]] = TurnParser.readFile()
 
         maybeTurns match {
           case Success(turns) =>
@@ -75,7 +75,7 @@ class SecretEntrancePart1Spec extends AnyWordSpec with Matchers {
       }
 
       "process all turns correctly from start to finish" in new Fixture {
-        val maybeTurns = TurnParser.readFile()
+        val maybeTurns: Try[List[Turn]] = TurnParser.readFile()
 
         maybeTurns match {
           case Success(turns) =>
@@ -93,31 +93,31 @@ class SecretEntrancePart1Spec extends AnyWordSpec with Matchers {
 
     "simulating the dial sequence step by step" should {
       "follow the expected position transitions" in new Fixture {
-        val maybeTurns = TurnParser.readFile()
+        val maybeTurns: Try[List[Turn]] = TurnParser.readFile()
 
         maybeTurns match {
           case Success(turns) =>
             val positions = turns.scanLeft(initialDial)((dial, turn) => dial.doTurn(turn))
               .map(_.position.value)
 
-            positions(0) should be(50)   // Initial position
-            positions(1) should be(82)   // After L68: (50 - 68 + 100) % 100 = 82
-            positions(2) should be(52)   // After L30: (82 - 30) % 100 = 52
-            positions(3) should be(0)    // After R48: (52 + 48) % 100 = 0 (ZERO!)
-            positions(4) should be(95)   // After L5: (0 - 5 + 100) % 100 = 95
-            positions(5) should be(55)   // After R60: (95 + 60) % 100 = 55
-            positions(6) should be(0)    // After L55: (55 - 55) % 100 = 0 (ZERO!)
-            positions(7) should be(99)   // After L1: (0 - 1 + 100) % 100 = 99
-            positions(8) should be(0)    // After L99: (99 - 99) % 100 = 0 (ZERO!)
-            positions(9) should be(14)   // After R14: (0 + 14) % 100 = 14
-            positions(10) should be(32)  // After L82: (14 - 82 + 100) % 100 = 32
+            positions(0) should be(50) // Initial position
+            positions(1) should be(82) // After L68: (50 - 68 + 100) % 100 = 82
+            positions(2) should be(52) // After L30: (82 - 30) % 100 = 52
+            positions(3) should be(0) // After R48: (52 + 48) % 100 = 0 (ZERO!)
+            positions(4) should be(95) // After L5: (0 - 5 + 100) % 100 = 95
+            positions(5) should be(55) // After R60: (95 + 60) % 100 = 55
+            positions(6) should be(0) // After L55: (55 - 55) % 100 = 0 (ZERO!)
+            positions(7) should be(99) // After L1: (0 - 1 + 100) % 100 = 99
+            positions(8) should be(0) // After L99: (99 - 99) % 100 = 0 (ZERO!)
+            positions(9) should be(14) // After R14: (0 + 14) % 100 = 14
+            positions(10) should be(32) // After L82: (14 - 82 + 100) % 100 = 32
 
           case _ => fail("Failed to parse turns")
         }
       }
 
       "correctly identify each time the dial passes through zero" in new Fixture {
-        val maybeTurns = TurnParser.readFile()
+        val maybeTurns: Try[List[Turn]] = TurnParser.readFile()
 
         maybeTurns match {
           case Success(turns) =>
@@ -136,7 +136,7 @@ class SecretEntrancePart1Spec extends AnyWordSpec with Matchers {
 
     "with edge cases" should {
       "handle empty turn list" in new Fixture {
-        val emptyTurns = List.empty
+        val emptyTurns: List[Nothing] = List.empty
 
         val (finalDial, zeroes) = emptyTurns.foldLeft((initialDial, 0)) { case ((dial, zeroes), turn) =>
           val nextDial = dial.doTurn(turn)

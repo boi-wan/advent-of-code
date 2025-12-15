@@ -5,7 +5,7 @@ import adventofcode.daytwo.model.{Range, SillyIdFinder}
 
 import scala.util.{Failure, Success}
 
-object GiftShopPart1 extends App {
+object GiftShopPart2 extends App {
 
   private val maybeRanges = RangeParser.readFile()
 
@@ -14,7 +14,7 @@ object GiftShopPart1 extends App {
     case Success(ranges) =>
       val sumOfSillyIds: BigDecimal = ranges.head.foldLeft(BigDecimal.apply(0)) {
         case (sum: BigDecimal, range: Range) =>
-          val sillyIds = SillyIdFinder.findSillyIdsPart1(range)
+          val sillyIds = SillyIdFinder.findSillyIdsPart2(range)
           sum + sillyIds.sum
       }
 
