@@ -148,12 +148,10 @@ The second puzzle involves finding "silly" product IDs within given ranges.
   - Examples: 11, 22, 1010, 222222, 1188511885
   - Uses `BigDecimal` for handling large numbers
   - Input: File with ranges in format "start-end,start-end,..."
-  - Result: Sum of all silly IDs = **1,227,775,554**
 
 - **Part 2**: Enhanced algorithm that also finds palindromic numbers and numbers with repeating patterns.
   - Includes additional silly ID patterns beyond simple half-matching
   - Finds more silly IDs in the same ranges
-  - Result: Sum of all silly IDs = **4,174,379,265**
 
 **Key Components**:
 - `SillyIdFinder`: Identifies silly IDs using digit comparison algorithms
@@ -185,7 +183,6 @@ The third puzzle involves finding the highest joltage values from battery banks.
   - The two highest batteries form a two-digit joltage number
   - Input: File with battery bank sequences (e.g., "987654321111111")
   - Uses `BigDecimal` for handling the sum of large joltage values
-  - Result: Sum of all highest joltages = **17,100**
 
 **Key Components**:
 - `Battery`: Represents a single battery with a digit value (0-9)
