@@ -32,12 +32,17 @@ advent-of-code/
 │   │   │   │   │   ├── input/       # RangeParser
 │   │   │   │   │   ├── GiftShopPart1.scala
 │   │   │   │   │   └── GiftShopPart2.scala
+│   │   │   │   ├── daythree/        # Day 3: Lobby
+│   │   │   │   │   ├── model/       # Battery, BatteryBank
+│   │   │   │   │   ├── input/       # BatteryBankParser
+│   │   │   │   │   └── LobbyPart1.scala
 │   │   │   │   └── util/            # Shared utilities
 │   │   │   │       ├── FileParser.scala
 │   │   │   │       └── RowParser.scala
 │   │   └── resources/
 │   │       ├── dayone/          # Day 1 input files
-│   │       └── daytwo/          # Day 2 input files
+│   │       ├── daytwo/          # Day 2 input files
+│   │       └── daythree/        # Day 3 input files
 │   └── test/
 │       └── scala/
 │           └── adventofcode/
@@ -47,11 +52,15 @@ advent-of-code/
 │               │   │   └── DialZeroCounterSpec.scala
 │               │   ├── SecretEntrancePart1Spec.scala
 │               │   └── SecretEntrancePart2Spec.scala
-│               └── daytwo/          # Day 2 tests (47 tests)
+│               ├── daytwo/          # Day 2 tests (47 tests)
+│               │   ├── model/
+│               │   │   └── SillyIdFinderSpec.scala
+│               │   ├── GiftShopPart1Spec.scala
+│               │   └── GiftShopPart2Spec.scala
+│               └── daythree/        # Day 3 tests (39 tests)
 │                   ├── model/
-│                   │   └── SillyIdFinderSpec.scala
-│                   ├── GiftShopPart1Spec.scala
-│                   └── GiftShopPart2Spec.scala
+│                   │   └── BatteryBankSpec.scala
+│                   └── LobbyPart1Spec.scala
 ├── build.sbt                    # Build configuration
 └── README.md
 ```
@@ -75,6 +84,9 @@ sbt "runMain adventofcode.dayone.SecretEntrancePart2"
 # Day 2: Gift Shop
 sbt "runMain adventofcode.daytwo.GiftShopPart1"
 sbt "runMain adventofcode.daytwo.GiftShopPart2"
+
+# Day 3: Lobby
+sbt "runMain adventofcode.daythree.LobbyPart1"
 ```
 
 ### Running Tests
@@ -90,6 +102,7 @@ To run tests for a specific package:
 ```bash
 sbt "testOnly adventofcode.dayone.*"
 sbt "testOnly adventofcode.daytwo.*"
+sbt "testOnly adventofcode.daythree.*"
 ```
 
 To run tests for a specific test class:
@@ -102,6 +115,8 @@ sbt "testOnly *SecretEntrancePart2Spec"
 sbt "testOnly *SillyIdFinderSpec"
 sbt "testOnly *GiftShopPart1Spec"
 sbt "testOnly *GiftShopPart2Spec"
+sbt "testOnly *BatteryBankSpec"
+sbt "testOnly *LobbyPart1Spec"
 ```
 
 ## Solutions
@@ -160,6 +175,39 @@ The second puzzle involves finding "silly" product IDs within given ranges.
 - Extends Part 1 logic with additional pattern detection
 - Identifies more complex silly ID patterns
 - Examples of additional patterns found: 999, 111, 565656
+
+### Day 3: Lobby
+The third puzzle involves finding the highest joltage values from battery banks.
+
+- **Part 1**: Calculate the sum of highest joltages from multiple battery banks.
+  - Each battery bank is a sequence of single-digit batteries (0-9)
+  - Algorithm splits each bank into two partitions and finds the highest battery in each
+  - The two highest batteries form a two-digit joltage number
+  - Input: File with battery bank sequences (e.g., "987654321111111")
+  - Uses `BigDecimal` for handling the sum of large joltage values
+  - Result: Sum of all highest joltages = **17,100**
+
+**Key Components**:
+- `Battery`: Represents a single battery with a digit value (0-9)
+  - Implements `Ordered[Battery]` for comparison based on digit value
+  - Value class extending `AnyVal` for performance optimization
+- `BatteryBank`: Collection of batteries with joltage calculation logic
+  - `largestJoltage()`: Finds the two highest batteries to form a joltage value
+- `BatteryBankParser`: Parses input file into BatteryBank sequences
+  - Converts each character to a Battery using `asDigit`
+
+**Largest Joltage Algorithm**:
+1. Split the battery array into two partitions:
+   - First partition: indices [0, n-2] (excludes last element)
+   - Find the highest battery and its index
+2. Second partition: indices [leftIdx+1, n-1]
+   - Starts after the first highest battery's position
+   - Find the highest battery in this range
+3. Combine the two highest digit values to form a two-digit joltage
+4. Examples:
+   - [9,8,7,6,5,4,3,2,1,1,1,1,1,1,1]: First highest = 9 (idx 0), Second highest = 8 (idx 1) → **98**
+   - [8,1,1,1,1,1,1,1,1,1,1,1,1,1,9]: First highest = 8 (idx 0), Second highest = 9 (idx 14) → **89**
+   - [2,3,4,2,3,4,2,3,4,2,3,4,2,7,8]: First highest = 7 (idx 13), Second highest = 8 (idx 14) → **78**
 
 *(More solutions will be added as the event progresses)*
 

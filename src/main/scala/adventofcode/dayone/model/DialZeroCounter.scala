@@ -1,4 +1,4 @@
-package adventofcode.dayone
+package adventofcode.dayone.model
 
 import adventofcode.dayone.model.*
 
