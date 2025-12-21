@@ -35,7 +35,8 @@ advent-of-code/
 │   │   │   │   ├── daythree/        # Day 3: Lobby
 │   │   │   │   │   ├── model/       # Battery, BatteryBank
 │   │   │   │   │   ├── input/       # BatteryBankParser
-│   │   │   │   │   └── LobbyPart1.scala
+│   │   │   │   │   ├── LobbyPart1.scala
+│   │   │   │   │   └── LobbyPart2.scala
 │   │   │   │   └── util/            # Shared utilities
 │   │   │   │       ├── FileParser.scala
 │   │   │   │       └── RowParser.scala
@@ -57,7 +58,7 @@ advent-of-code/
 │               │   │   └── SillyIdFinderSpec.scala
 │               │   ├── GiftShopPart1Spec.scala
 │               │   └── GiftShopPart2Spec.scala
-│               └── daythree/        # Day 3 tests (39 tests)
+│               └── daythree/        # Day 3 tests (43 tests)
 │                   ├── model/
 │                   │   └── BatteryBankSpec.scala
 │                   └── LobbyPart1Spec.scala
@@ -87,6 +88,7 @@ sbt "runMain adventofcode.daytwo.GiftShopPart2"
 
 # Day 3: Lobby
 sbt "runMain adventofcode.daythree.LobbyPart1"
+sbt "runMain adventofcode.daythree.LobbyPart2"
 ```
 
 ### Running Tests
@@ -184,16 +186,23 @@ The third puzzle involves finding the highest joltage values from battery banks.
   - Input: File with battery bank sequences (e.g., "987654321111111")
   - Uses `BigDecimal` for handling the sum of large joltage values
 
+- **Part 2**: Enhanced algorithm that finds the 12 largest joltage values using a monotonic stack approach.
+  - Uses a greedy algorithm with a stack to track potential candidates
+  - Ensures at least 12 elements can be selected by checking remaining batteries
+  - Constructs a 12-digit joltage number from the top 12 batteries
+  - More sophisticated approach for finding the optimal sequence of high values
+
 **Key Components**:
 - `Battery`: Represents a single battery with a digit value (0-9)
   - Implements `Ordered[Battery]` for comparison based on digit value
   - Value class extending `AnyVal` for performance optimization
 - `BatteryBank`: Collection of batteries with joltage calculation logic
   - `largestJoltage()`: Finds the two highest batteries to form a joltage value
+  - `largestJoltageOfTwelve()`: Finds the 12 highest batteries using a monotonic stack
 - `BatteryBankParser`: Parses input file into BatteryBank sequences
   - Converts each character to a Battery using `asDigit`
 
-**Largest Joltage Algorithm**:
+**Largest Joltage Algorithm (Part 1)**:
 1. Split the battery array into two partitions:
    - First partition: indices [0, n-2] (excludes last element)
    - Find the highest battery and its index
@@ -205,6 +214,22 @@ The third puzzle involves finding the highest joltage values from battery banks.
    - [9,8,7,6,5,4,3,2,1,1,1,1,1,1,1]: First highest = 9 (idx 0), Second highest = 8 (idx 1) → **98**
    - [8,1,1,1,1,1,1,1,1,1,1,1,1,1,9]: First highest = 8 (idx 0), Second highest = 9 (idx 14) → **89**
    - [2,3,4,2,3,4,2,3,4,2,3,4,2,7,8]: First highest = 7 (idx 13), Second highest = 8 (idx 14) → **78**
+
+**Largest Joltage Of Twelve Algorithm (Part 2)**:
+1. Use a monotonic decreasing stack to track potential candidates
+2. For each battery in the sequence:
+   - Pop smaller batteries from the stack if:
+     - Current battery is greater than stack top, AND
+     - Remaining elements + stack size > 12 (ensures 12 elements are selectable)
+   - Push the current battery onto the stack
+   - Decrement remaining battery count
+3. Take the top 12 batteries from the stack (in reverse order)
+4. Combine their digits to form a 12-digit joltage number
+5. Examples:
+   - [9,8,7,6,5,4,3,2,1,1,1,1,1,1,1]: Stack maintains [9,8,7,6,5,4,3,2,1,1,1,1] → **987654321111**
+   - [8,1,1,1,1,1,1,1,1,1,1,1,1,1,9]: Stack keeps higher values → **811111111119**
+   - [2,3,4,2,3,4,2,3,4,2,3,4,2,7,8]: Stack optimizes for highest 12 → **434234234278**
+   - [8,1,8,1,8,1,9,1,1,1,1,2,1,1,1]: Stack greedily selects → **888911112111**
 
 *(More solutions will be added as the event progresses)*
 

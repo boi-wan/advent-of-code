@@ -5,7 +5,7 @@ import adventofcode.daythree.model.{BatteryBank, Joltage}
 
 import scala.util.{Failure, Success}
 
-object LobbyPart1 extends App {
+object LobbyPart2 extends App {
 
   private val maybeBatteryBanks = BatteryBankParser.readFile()
 
@@ -14,7 +14,7 @@ object LobbyPart1 extends App {
     case Success(batteryBanks) =>
       val sumOfJoltages: Joltage = batteryBanks.foldLeft(Joltage(0)) {
         case (sum: Joltage, batteryBank: BatteryBank) =>
-          sum + batteryBank.largestJoltage()
+          sum + batteryBank.largestJoltageOfTwelve()
       }
 
       println(s"Sum of highest joltages: ${sumOfJoltages.value}")

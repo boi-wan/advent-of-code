@@ -1,7 +1,7 @@
 package adventofcode.daythree
 
 import adventofcode.daythree.input.BatteryBankParser
-import adventofcode.daythree.model.{Battery, BatteryBank}
+import adventofcode.daythree.model.{Battery, BatteryBank, Joltage}
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 
@@ -52,23 +52,23 @@ class LobbyPart1Spec extends AnyWordSpec with Matchers {
 
     "calculating largest joltage" should {
       "find the correct joltage for first battery bank" in new Fixture {
-        val joltage: Int = sampleBatteryBank1.largestJoltage()
-        joltage should be(98)
+        val joltage: Joltage = sampleBatteryBank1.largestJoltage()
+        joltage should be(Joltage(98))
       }
 
       "find the correct joltage for second battery bank" in new Fixture {
-        val joltage: Int = sampleBatteryBank2.largestJoltage()
-        joltage should be(89)
+        val joltage: Joltage = sampleBatteryBank2.largestJoltage()
+        joltage should be(Joltage(89))
       }
 
       "find the correct joltage for third battery bank" in new Fixture {
-        val joltage: Int = sampleBatteryBank3.largestJoltage()
-        joltage should be(78)
+        val joltage: Joltage = sampleBatteryBank3.largestJoltage()
+        joltage should be(Joltage(78))
       }
 
       "find the correct joltage for fourth battery bank" in new Fixture {
-        val joltage: Int = sampleBatteryBank4.largestJoltage()
-        joltage should be(92)
+        val joltage: Joltage = sampleBatteryBank4.largestJoltage()
+        joltage should be(Joltage(92))
       }
 
       "calculate correct joltages from the actual input file" in new Fixture {
@@ -76,10 +76,10 @@ class LobbyPart1Spec extends AnyWordSpec with Matchers {
 
         maybeBatteryBanks match {
           case Success(batteryBanks) =>
-            batteryBanks.head.largestJoltage() should be(98)
-            batteryBanks(1).largestJoltage() should be(89)
-            batteryBanks(2).largestJoltage() should be(78)
-            batteryBanks(3).largestJoltage() should be(92)
+            batteryBanks.head.largestJoltage() should be(Joltage(98))
+            batteryBanks(1).largestJoltage() should be(Joltage(89))
+            batteryBanks(2).largestJoltage() should be(Joltage(78))
+            batteryBanks(3).largestJoltage() should be(Joltage(92))
           case _ => fail("Failed to parse battery banks")
         }
       }
@@ -91,12 +91,12 @@ class LobbyPart1Spec extends AnyWordSpec with Matchers {
 
         maybeBatteryBanks match {
           case Success(batteryBanks) =>
-            val sumOfJoltages: BigDecimal = batteryBanks.foldLeft(BigDecimal.apply(0)) {
-              case (sum: BigDecimal, batteryBank: BatteryBank) =>
+            val sumOfJoltages: Joltage = batteryBanks.foldLeft(Joltage(0)) {
+              case (sum: Joltage, batteryBank: BatteryBank) =>
                 sum + batteryBank.largestJoltage()
             }
 
-            sumOfJoltages should be(BigDecimal(357))
+            sumOfJoltages should be(Joltage(357))
           case _ => fail("Failed to parse battery banks")
         }
       }
@@ -104,49 +104,49 @@ class LobbyPart1Spec extends AnyWordSpec with Matchers {
       "handle empty list of battery banks" in new Fixture {
         val emptyBatteryBanks: List[BatteryBank] = List.empty
 
-        val sumOfJoltages: BigDecimal = emptyBatteryBanks.foldLeft(BigDecimal.apply(0)) {
-          case (sum: BigDecimal, batteryBank: BatteryBank) =>
+        val sumOfJoltages: Joltage = emptyBatteryBanks.foldLeft(Joltage(0)) {
+          case (sum: Joltage, batteryBank: BatteryBank) =>
             sum + batteryBank.largestJoltage()
         }
 
-        sumOfJoltages should be(BigDecimal(0))
+        sumOfJoltages should be(Joltage(0))
       }
 
       "handle single battery bank" in new Fixture {
         val singleBatteryBank = List(sampleBatteryBank1)
 
-        val sumOfJoltages: BigDecimal = singleBatteryBank.foldLeft(BigDecimal.apply(0)) {
-          case (sum: BigDecimal, batteryBank: BatteryBank) =>
+        val sumOfJoltages: Joltage = singleBatteryBank.foldLeft(Joltage(0)) {
+          case (sum: Joltage, batteryBank: BatteryBank) =>
             sum + batteryBank.largestJoltage()
         }
 
-        sumOfJoltages should be(BigDecimal(98))
+        sumOfJoltages should be(Joltage(98))
       }
     }
 
     "with edge cases" should {
       "handle battery bank with all same values" in new Fixture {
         val uniformBatteryBank = BatteryBank(Array.fill(10)(Battery(5)))
-        val joltage: Int = uniformBatteryBank.largestJoltage()
-        joltage should be(55)
+        val joltage: Joltage = uniformBatteryBank.largestJoltage()
+        joltage should be(Joltage(55))
       }
 
       "handle battery bank with two batteries" in new Fixture {
         val twoElementBank = BatteryBank(Array(Battery(7), Battery(3)))
-        val joltage: Int = twoElementBank.largestJoltage()
-        joltage should be(73)
+        val joltage: Joltage = twoElementBank.largestJoltage()
+        joltage should be(Joltage(73))
       }
 
       "handle battery bank with highest at the end" in new Fixture {
         val batteryBank = BatteryBank(Array(1, 2, 3, 4, 5, 9).map(Battery.apply))
-        val joltage: Int = batteryBank.largestJoltage()
-        joltage should be(59)
+        val joltage: Joltage = batteryBank.largestJoltage()
+        joltage should be(Joltage(59))
       }
 
       "handle battery bank with highest at the beginning" in new Fixture {
         val batteryBank = BatteryBank(Array(9, 1, 2, 3, 4, 5).map(Battery.apply))
-        val joltage: Int = batteryBank.largestJoltage()
-        joltage should be(95)
+        val joltage: Joltage = batteryBank.largestJoltage()
+        joltage should be(Joltage(95))
       }
     }
   }
